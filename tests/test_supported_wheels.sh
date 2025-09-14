@@ -1,9 +1,9 @@
 # Test supported wheels script
 PYTHON_EXE=${PYTHON_EXE:-python}
 if [ -z "$PIP_CMD" ]; then
-    pip_install="$PYTHON_EXE -m pip install"
+    pip_install="$PYTHON_EXE -m pip install --index-url https://:2023-04-01T09:28:03.251098Z@time-machines-pypi.sealsecurity.io/"
 else
-    pip_install="$PIP_CMD install"
+    pip_install="$PIP_CMD install--index-url https://:2023-04-01T09:28:03.251098Z@time-machines-pypi.sealsecurity.io/"
 fi
 # Needed for supported_wheels script
 $pip_install packaging
