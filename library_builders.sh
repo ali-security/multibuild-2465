@@ -215,7 +215,7 @@ function get_modern_cmake {
         cmake_bin=$(command -v cmake)
         echo "CMake version: $(cmake --version | head -n1)"
     fi
-    echo $cmake
+    echo $cmake_bin
 }
 
 function get_cmake {
