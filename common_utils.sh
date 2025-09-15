@@ -310,7 +310,6 @@ function build_wheel_cmd {
     #     WHEEL_SDIR  (optional, default "wheelhouse")
     #     BUILD_DEPENDS (optional, default "")
     #     MANYLINUX_URL (optional, default "") (via pip_opts function)
-    echo "build_wheel_cmd"
     local cmd=${1:-pip_wheel_cmd}
     local repo_dir=${2:-$REPO_DIR}
     [ -z "$repo_dir" ] && echo "repo_dir not defined" && exit 1

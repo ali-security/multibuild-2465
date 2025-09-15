@@ -20,6 +20,17 @@ CONFIG_PATH=${CONFIG_PATH:-config.sh}
 # Path is relative to repository from which we ran
 ENV_VARS_PATH=${ENV_VARS_PATH:-env_vars.sh}
 
+CMAKE_VERSION=3.11.4
+curl -LO https://cmake.org/files/v3.11/cmake-${CMAKE_VERSION}.tar.gz
+tar -xzf cmake-${CMAKE_VERSION}.tar.gz
+cd cmake-${CMAKE_VERSION}
+./bootstrap --prefix=/opt/cmake-${CMAKE_VERSION}
+make -j$(nproc)
+make install
+export PATH=/opt/cmake-${CMAKE_VERSION}/bin:$PATH
+cd ..   # <-- back to repo root, so multibuild/ exists
+cmake --version
+
 # Always pull in common and library builder utils
 MULTIBUILD_DIR=$(dirname "${BASH_SOURCE[0]}")
 # These routines also source common_utils.sh
