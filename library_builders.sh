@@ -200,20 +200,20 @@ function get_modern_cmake {
     # Install cmake >= 2.8
     local cmake_bin=cmake
     if command -v cmake &> /dev/null; then
-        cmake_bin=$(command -v cmake)
-        echo "CMake version: $(cmake --version | head -n1)"
+        cmake_bin=$(command -v cmake) 
+        echo "CMake version: $(cmake --version | head -n1)" >&2
     else
-        echo "CMake is not installed, installing CMake ${CMAKE_VERSION}"
-        curl -LO https://cmake.org/files/v3.11/cmake-${CMAKE_VERSION}.tar.gz
-        tar -xzf cmake-${CMAKE_VERSION}.tar.gz
-        cd cmake-${CMAKE_VERSION}
-        ./bootstrap --prefix=/opt/cmake-${CMAKE_VERSION}
-        make -j$(nproc)
-        make install
-        export PATH=/opt/cmake-${CMAKE_VERSION}/bin:$PATH
-        cd ..   # <-- back to repo root, so multibuild/ exists
+        echo "CMake is not installed, installing CMake ${CMAKE_VERSION}" >&2
+        curl -LO https://cmake.org/files/v3.11/cmake-${CMAKE_VERSION}.tar.gz > /dev/null
+        tar -xzf cmake-${CMAKE_VERSION}.tar.gz > /dev/null
+        cd cmake-${CMAKE_VERSION} || exit 1
+        ./bootstrap --prefix=/opt/cmake-${CMAKE_VERSION} > /dev/null
+        make -j$(nproc) > /dev/null
+        make install > /dev/null
+        export PATH=/opt/cmake-${CMAKE_VERSION}/bin:$PATH 
+        cd ..  || exit 1 # <-- back to repo root, so multibuild/ exists
         cmake_bin=$(command -v cmake)
-        echo "CMake version: $(cmake --version | head -n1)"
+        echo "CMake version: $(cmake --version | head -n1)" >&2
     fi
     echo $cmake_bin
 }
