@@ -164,11 +164,15 @@ function build_jpeg {
 
 function build_libjpeg_turbo {
     if [ -e jpeg-stamp ]; then return; fi
-    local cmake=$(get_modern_cmake)
+    # local cmake=$(get_modern_cmake)
     fetch_unpack https://download.sourceforge.net/libjpeg-turbo/libjpeg-turbo-${JPEGTURBO_VERSION}.tar.gz
-    (cd libjpeg-turbo-${JPEGTURBO_VERSION} \
-        && $cmake -G"Unix Makefiles" -DCMAKE_INSTALL_PREFIX=/usr/local -DCMAKE_INSTALL_LIBDIR=/usr/local/lib . \
-        && make install)
+    # (cd libjpeg-turbo-${JPEGTURBO_VERSION} \
+    #     && $cmake -G"Unix Makefiles" -DCMAKE_INSTALL_PREFIX=/usr/local -DCMAKE_INSTALL_LIBDIR=/usr/local/lib . \
+    #     && make install)
+    cd libjpeg-turbo-${JPEGTURBO_VERSION}
+    cmake -G"Unix Makefiles" -DCMAKE_INSTALL_PREFIX=/usr/local -DCMAKE_INSTALL_LIBDIR=/usr/local/lib .
+    make install
+    cd -
 
     # Prevent build_jpeg
     touch jpeg-stamp
@@ -198,24 +202,22 @@ function build_tiff {
 
 function get_modern_cmake {
     # Install cmake >= 2.8
-    local cmake_bin=cmake
-    if command -v cmake &> /dev/null; then
-        cmake_bin=$(command -v cmake) 
-        echo "CMake version: $(cmake --version | head -n1)" >&2
+    local cmake=cmake
+    if [ -n "$IS_MACOS" ]; then
+        brew install cmake > /dev/null
+    elif [ -n "$IS_ALPINE" ]; then
+        apk add cmake > /dev/null
+    elif [[ $MB_ML_VER == "_2_24" ]]; then
+        # debian:9 based distro
+        apt-get install -y cmake
     else
-        echo "CMake is not installed, installing CMake ${CMAKE_VERSION}" >&2
-        curl -LO https://cmake.org/files/v3.11/cmake-${CMAKE_VERSION}.tar.gz > /dev/null
-        tar -xzf cmake-${CMAKE_VERSION}.tar.gz > /dev/null
-        cd cmake-${CMAKE_VERSION} || exit 1
-        ./bootstrap --prefix=/opt/cmake-${CMAKE_VERSION} > /dev/null
-        make -j$(nproc) > /dev/null
-        make install > /dev/null
-        export PATH=/opt/cmake-${CMAKE_VERSION}/bin:$PATH 
-        cd ..  || exit 1 # <-- back to repo root, so multibuild/ exists
-        cmake_bin=$(command -v cmake)
-        echo "CMake version: $(cmake --version | head -n1)" >&2
+        if [ "`yum search cmake | grep ^cmake28\.`" ]; then
+            cmake=cmake28
+        fi
+        # centos based distro
+        yum_install $cmake > /dev/null
     fi
-    echo $cmake_bin
+    echo $cmake
 }
 
 function get_cmake {

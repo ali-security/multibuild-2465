@@ -56,12 +56,14 @@ else
     elif [[ $MB_ML_VER == "1" ]]; then
         # Need libtool, and for pypy need wget
         # centos based distro
+        rpm --import https://repo.almalinux.org/almalinux/RPM-GPG-KEY-AlmaLinux
         yum install -y libtool wget
     elif [ "${MB_PYTHON_VERSION:0:4}" == "pypy" ]; then
         if [ -n "$IS_ALPINE" ]; then
           apk add wget
         else
           # centos based distro
+          rpm --import https://repo.almalinux.org/almalinux/RPM-GPG-KEY-AlmaLinux
           yum install -y wget
         fi
     fi
