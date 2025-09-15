@@ -262,18 +262,18 @@ function build_openjpeg {
     fi
     local out_dir=$(fetch_unpack https://github.com/uclouvain/openjpeg/archive/${archive_prefix}${OPENJPEG_VERSION}.tar.gz)
     (cd $out_dir \
-        && $cmake -DCMAKE_INSTALL_PREFIX=$BUILD_PREFIX . \
+        && $cmake -DCMAKE_POLICY_VERSION_MINIMUM=3.5 -DCMAKE_INSTALL_PREFIX=$BUILD_PREFIX . \
         && make install)
     touch openjpeg-stamp
 }
 
 function build_lcms2 {
     build_tiff
-    # build_simple lcms2 $LCMS2_VERSION https://downloads.sourceforge.net/project/lcms/lcms/$LCMS2_VERSION
-    echo LCMS2_VERSION: $LCMS2_VERSION
-    # old: https://downloads.sourceforge.net/project/lcms/lcms/2.15/lcms2-2.15.tar.gz
-    build_simple_no_ext lcms2 $LCMS2_VERSION https://sourceforge.net/projects/lcms/files/lcms/2.15/lcms2-2.15.tar.gz/download lcms2-2.15.tar.gz
-    echo "seal done lcms"
+    build_simple lcms2 $LCMS2_VERSION https://downloads.sourceforge.net/project/lcms/lcms/$LCMS2_VERSION
+    # echo LCMS2_VERSION: $LCMS2_VERSION
+    # # old: https://downloads.sourceforge.net/project/lcms/lcms/2.15/lcms2-2.15.tar.gz
+    # build_simple_no_ext lcms2 $LCMS2_VERSION https://sourceforge.net/projects/lcms/files/lcms/2.15/lcms2-2.15.tar.gz/download lcms2-2.15.tar.gz
+    # echo "seal done lcms"
 }
 
 function build_giflib {
