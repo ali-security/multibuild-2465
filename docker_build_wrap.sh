@@ -7,7 +7,7 @@
 #   UNICODE_WIDTH  (can be empty)
 #   BUILD_DEPENDS  (may be used by config.sh, can be empty)
 set -e
-eacho "docker_build_wrap.sh file called"
+echo "docker_build_wrap.sh file called"
 
 
 # change cmake version
