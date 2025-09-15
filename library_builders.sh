@@ -198,8 +198,9 @@ function build_tiff {
 
 function get_modern_cmake {
     # Install cmake >= 2.8
-    local cmake=cmake
-    if cmake --version &> /dev/null; then
+    local cmake_bin=cmake
+    if command -v cmake &> /dev/null; then
+        cmake_bin=$(command -v cmake)
         echo "CMake version: $(cmake --version | head -n1)"
     else
         error "CMake is not installed, installing CMake ${CMAKE_VERSION}"
@@ -211,6 +212,7 @@ function get_modern_cmake {
         make install
         export PATH=/opt/cmake-${CMAKE_VERSION}/bin:$PATH
         cd ..   # <-- back to repo root, so multibuild/ exists
+        cmake_bin=$(command -v cmake)
         echo "CMake version: $(cmake --version | head -n1)"
     fi
     echo $cmake
