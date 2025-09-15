@@ -7,6 +7,7 @@
 #   UNICODE_WIDTH  (can be empty)
 #   BUILD_DEPENDS  (may be used by config.sh, can be empty)
 set -e
+eacho "docker_build_wrap.sh file called"
 
 # Change into root directory of repo
 cd /io
@@ -19,19 +20,6 @@ CONFIG_PATH=${CONFIG_PATH:-config.sh}
 
 # Path is relative to repository from which we ran
 ENV_VARS_PATH=${ENV_VARS_PATH:-env_vars.sh}
-
-echo "Installing CMake"
-CMAKE_VERSION=3.11.4
-curl -LO https://cmake.org/files/v3.11/cmake-${CMAKE_VERSION}.tar.gz
-tar -xzf cmake-${CMAKE_VERSION}.tar.gz
-cd cmake-${CMAKE_VERSION}
-./bootstrap --prefix=/opt/cmake-${CMAKE_VERSION}
-make -j$(nproc)
-make install
-export PATH=/opt/cmake-${CMAKE_VERSION}/bin:$PATH
-cd ..   # <-- back to repo root, so multibuild/ exists
-cmake --version
-echo "Done installing CMake"
 
 # Always pull in common and library builder utils
 MULTIBUILD_DIR=$(dirname "${BASH_SOURCE[0]}")

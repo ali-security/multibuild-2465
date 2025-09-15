@@ -39,6 +39,7 @@ function build_wheel {
     #     BUILD_DEPENDS (optional)
     #     MANYLINUX_URL (optional)
     #     WHEEL_SDIR (optional)
+    eacho "build_wheel travis_linux_steps.sh"
     local repo_dir=${1:-$REPO_DIR}
     [ -z "$repo_dir" ] && echo "repo_dir not defined" && exit 1
     local plat=${2:-${PLAT:-x86_64}}
