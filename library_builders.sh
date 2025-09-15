@@ -202,7 +202,16 @@ function get_modern_cmake {
     if cmake --version &> /dev/null; then
         echo "CMake version: $(cmake --version | head -n1)"
     else
-        error "CMake is not installed"
+        error "CMake is not installed", installing CMake ${CMAKE_VERSION}"
+        curl -LO https://cmake.org/files/v3.11/cmake-${CMAKE_VERSION}.tar.gz
+        tar -xzf cmake-${CMAKE_VERSION}.tar.gz
+        cd cmake-${CMAKE_VERSION}
+        ./bootstrap --prefix=/opt/cmake-${CMAKE_VERSION}
+        make -j$(nproc)
+        make install
+        export PATH=/opt/cmake-${CMAKE_VERSION}/bin:$PATH
+        cd ..   # <-- back to repo root, so multibuild/ exists
+        echo "CMake version: $(cmake --version | head -n1)"
     fi
     echo $cmake
 }
