@@ -7,21 +7,6 @@
 #   UNICODE_WIDTH  (can be empty)
 #   BUILD_DEPENDS  (may be used by config.sh, can be empty)
 set -e
-echo "docker_build_wrap.sh file called"
-
-
-# change cmake version
-echo initial cmake: $(cmake --version)
-CMAKE_VERSION=3.11.4
-curl -LO https://cmake.org/files/v3.11/cmake-${CMAKE_VERSION}.tar.gz
-tar -xzf cmake-${CMAKE_VERSION}.tar.gz
-cd cmake-${CMAKE_VERSION}
-./bootstrap --prefix=/opt/cmake-${CMAKE_VERSION}
-make -j$(nproc)
-make install
-export PATH=/opt/cmake-${CMAKE_VERSION}/bin:$PATH
-cd ..   # <-- back to repo root, so multibuild/ exists
-cmake --version
 
 cd /io
 

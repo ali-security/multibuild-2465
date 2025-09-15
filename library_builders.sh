@@ -199,19 +199,10 @@ function build_tiff {
 function get_modern_cmake {
     # Install cmake >= 2.8
     local cmake=cmake
-    if [ -n "$IS_MACOS" ]; then
-        brew install cmake > /dev/null
-    elif [ -n "$IS_ALPINE" ]; then
-        apk add cmake > /dev/null
-    elif [[ $MB_ML_VER == "_2_24" ]]; then
-        # debian:9 based distro
-        apt-get install -y cmake
+    if cmake --version &> /dev/null; then
+        echo "CMake version: $(cmake --version | head -n1)"
     else
-        if [ "`yum search cmake | grep ^cmake28\.`" ]; then
-            cmake=cmake28
-        fi
-        # centos based distro
-        yum_install $cmake > /dev/null
+        error "CMake is not installed"
     fi
     echo $cmake
 }
