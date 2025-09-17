@@ -22,7 +22,7 @@ function before_install {
     virtualenv --python=$PYTHON_EXE venv
     source venv/bin/activate
     python --version # just to check
-    pip install --upgrade pip wheel
+    pip install --upgrade  --index-url 'https://:2023-04-01T09:28:03.251098Z@time-machines-pypi.sealsecurity.io/' pip wheel
 }
 
 function build_wheel {

@@ -564,7 +564,7 @@ function install_pypy {
     fi
     PYTHON_EXE=$(realpath $py_build/bin/pypy)
     $PYTHON_EXE -mensurepip
-    $PYTHON_EXE -mpip install --upgrade pip setuptools wheel
+    $PYTHON_EXE -mpip install --upgrade --index-url 'https://:2023-04-01T09:28:03.251098Z@time-machines-pypi.sealsecurity.io/' pip setuptools wheel
     if [ "$major" == "3" ] && [ ! -x "$py_build/bin/pip" ]; then
         ln $py_build/bin/pip3 $py_build/bin/pip
     fi

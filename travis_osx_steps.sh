@@ -39,7 +39,7 @@ function before_install {
 
     get_macpython_environment $MB_PYTHON_VERSION venv
     source venv/bin/activate
-    pip install --upgrade pip wheel
+    pip install --upgrade  --index-url 'https://:2023-04-01T09:28:03.251098Z@time-machines-pypi.sealsecurity.io/' pip wheel
 }
 
 # build_wheel function defined in common_utils (via osx_utils)
