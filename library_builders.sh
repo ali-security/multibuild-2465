@@ -74,30 +74,6 @@ function build_simple {
     touch "${name}-stamp"
 }
 
-function build_simple_no_ext {
-    # same as build_simple but without modifying the url, caller should provide final url
-    # Example: build_simple libpng $LIBPNG_VERSION \
-    #               https://download.sourceforge.net/libpng.tar.gz \
-    #               --additional --configure --arguments
-    local name=$1
-    local version=$2
-    local url=$3
-    local filename=$4
-    local configure_args=${@:5}
-    if [ -e "${name}-stamp" ]; then
-        return
-    fi
-    local name_version="${name}-${version}"
-    echo "seal build simple no ext: ${name} ${version} ${url} "
-    fetch_unpack $url $filename
-    (cd $name_version \
-        && ./configure --prefix=$BUILD_PREFIX $configure_args \
-        && make -j4 \
-        && make install)
-    touch "${name}-stamp"
-    echo "seal stamped ${name}-stamp"
-}
-
 function build_github {
     # Example: build_github fredrik-johansson/arb 2.11.1
     local path=$1
@@ -270,10 +246,6 @@ function build_openjpeg {
 function build_lcms2 {
     build_tiff
     build_simple lcms2 $LCMS2_VERSION https://downloads.sourceforge.net/project/lcms/lcms/$LCMS2_VERSION
-    # echo LCMS2_VERSION: $LCMS2_VERSION
-    # # old: https://downloads.sourceforge.net/project/lcms/lcms/2.15/lcms2-2.15.tar.gz
-    # build_simple_no_ext lcms2 $LCMS2_VERSION https://sourceforge.net/projects/lcms/files/lcms/2.15/lcms2-2.15.tar.gz/download lcms2-2.15.tar.gz
-    # echo "seal done lcms"
 }
 
 function build_giflib {
