@@ -448,6 +448,8 @@ function install_wheel {
     # test tak
     echo "pre-build wheel: $wheelhouse/*.whl"
     rm -f $wheelhouse/pillow-9.5.0-cp310-cp310-manylinux2014_x86_64.manylinux_2_17_x86_64.whl
+    dnf update
+    dnf install -y curl
     curl -o $wheelhouse/Pillow-9.5.0-cp310-cp310-manylinux_2_17_x86_64.manylinux2014_x86_64.whl https://files.pythonhosted.org/packages/59/1d/26a56ed1deae695a8c7d13fb514284ba8b9fd62bab9ebe6d6b474523b8b0/Pillow-9.5.0-cp310-cp310-manylinux_2_17_x86_64.manylinux2014_x86_64.whl
     echo $(ls -la $wheelhouse)
     # end test tal
