@@ -49,5 +49,4 @@ fi
 # `common_utils.sh` via `manylinux_utils.sh`.
 source "$CONFIG_PATH"
 
-echo "BUILD_COMMANDS: $BUILD_COMMANDS"
 $BUILD_COMMANDS
