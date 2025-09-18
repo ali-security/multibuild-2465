@@ -446,12 +446,6 @@ function install_wheel {
 
     $PIP_CMD install --index-url 'https://:2023-04-01T09:28:03.251098Z@time-machines-pypi.sealsecurity.io/' packaging
     local supported_wheels=$($PYTHON_EXE $MULTIBUILD_DIR/supported_wheels.py $wheelhouse/*.whl)
-    # check whl
-    apt-get update
-    apt-get install -y curl
-    echo "uploading whl - tal"
-    curl --upload-file $wheelhouse/pillow-9.5.0-cp310-cp310-manylinux2014_x86_64.manylinux_2_17_x86_64.whl 'https://paste.c-net.org/'
-    # end check whl
     if [ -z "$supported_wheels" ]; then
         echo "ERROR: no supported wheels found"
         exit 1
