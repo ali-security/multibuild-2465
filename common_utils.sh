@@ -390,7 +390,10 @@ function build_index_wheel_cmd {
     if [ -n "$BUILD_DEPENDS" ]; then
         pip install $(pip_opts) $@ $BUILD_DEPENDS
     fi
-    pip wheel $(pip_opts) $@ -w $wheelhouse --no-deps $project_spec
+    local cmd=$@
+    echo "pip wheel $(pip_opts) $cmd -w $wheelhouse --no-deps $project_spec"
+    pip wheel $(pip_opts) $cmd -w $wheelhouse --no-deps $project_spec
+    # pip wheel $(pip_opts) $@ -w $wheelhouse --no-deps $project_spec
     repair_wheelhouse $wheelhouse
 }
 
