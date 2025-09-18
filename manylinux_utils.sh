@@ -21,7 +21,8 @@ function repair_wheelhouse {
         else
             local tmpdir=$(mktemp -d -t)
             
-            auditwheel repair $whl -w $tmpdir/
+            # auditwheel repair $whl -w $tmpdir/
+            auditwheel repair --include-libs libharfbuzz.so $whl -w $tmpdir/
             
             local built=$(find $tmpdir -name *.whl)
             if [ $(basename $built) == $(basename $whl) ]; then
