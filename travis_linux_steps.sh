@@ -80,7 +80,11 @@ function build_multilinux {
     local build_cmds="$2"
     local libc=${MB_ML_LIBC:-manylinux}
     local docker_image=${DOCKER_IMAGE:-quay.io/pypa/${libc}${MB_ML_VER}_\$plat}
-    docker_image=$(eval echo "$docker_image")
+    # set sha
+    local DOCKER_DIGEST="sha256:ebe22a2ef2acd8689ff980441f3d6b739485c3d2fb31c23397b234c751e32dbf"
+    docker_image=$(eval echo "$docker_image@$DOCKER_DIGEST")
+    # tal check
+    # docker_image=$(eval echo "$docker_image")
     retry docker pull $docker_image
     docker run --rm \
         -e BUILD_COMMANDS="$build_cmds" \
