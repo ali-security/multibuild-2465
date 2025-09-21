@@ -7,6 +7,8 @@
 #   UNICODE_WIDTH  (can be empty)
 #   BUILD_DEPENDS  (may be used by config.sh, can be empty)
 set -e
+cd $MULTIBUILD_DIR
+./build.bash --setup
 
 cd /io
 
