@@ -65,7 +65,8 @@ setup_centos() {
     # needed to run once on machine; in Dockerfile should be handled by it (must run as non-root user, but as sudoer)
     echo "performing machine setup, for distro: centos version: $distro_version"
     local machine_arch=$(uname -m)
-    if [ $machine_arch = "x86_64" ]; then
+    # aarch64 is called by travis and x86_64 is called by github actions
+    if [ $machine_arch = "x86_64" -o $machine_arch = "aarch64" ]; then
         echo "64-bit architecture"
         sed -i 's/^\#baseurl=http:\/\/mirror.centos.org\/centos\/\$releasever\//baseurl=https:\/\/vault.centos.org\/7.9.2009\//' /etc/yum.repos.d/*
         sed -i 's|^#baseurl=http://mirror.centos.org|baseurl=https://vault.centos.org|' /etc/yum.repos.d/CentOS-SCLo-scl-rh.repo
