@@ -97,6 +97,8 @@ setup_machine() {
             exit 1
         fi
         sed -i 's/^mirrorlist/\#mirrorlist/' /etc/yum.repos.d/*
+        sed -i 's|^#baseurl=http://mirror.centos.org|baseurl=https://vault.centos.org|' /etc/yum.repos.d/CentOS-SCLo-scl-rh.repo
+
 
         yum groupinstall "Development Tools" -y
     fi
