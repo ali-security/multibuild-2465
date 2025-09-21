@@ -89,6 +89,7 @@ setup_machine() {
         if [ $machine_arch = "x86_64" ]; then
             echo "64-bit architecture"
             sed -i 's/^\#baseurl=http:\/\/mirror.centos.org\/centos\/\$releasever\//baseurl=https:\/\/vault.centos.org\/7.9.2009\//' /etc/yum.repos.d/*
+            sed -i 's|^#baseurl=http://mirror.centos.org|baseurl=https://vault.centos.org|' /etc/yum.repos.d/CentOS-SCLo-scl-rh.repo
         elif [[ $machine_arch == "i686" || $machine_arch == "i386" ]]; then
             echo "32-bit architecture"
             sed -i 's/^\#baseurl=http:\/\/mirror.centos.org\/altarch\/\$releasever\//baseurl=https:\/\/vault.centos.org\/altarch\/7.9.2009\//' /etc/yum.repos.d/*
@@ -97,7 +98,6 @@ setup_machine() {
             exit 1
         fi
         sed -i 's/^mirrorlist/\#mirrorlist/' /etc/yum.repos.d/*
-        sed -i 's|^#baseurl=http://mirror.centos.org|baseurl=https://vault.centos.org|' /etc/yum.repos.d/CentOS-SCLo-scl-rh.repo
 
 
         yum groupinstall "Development Tools" -y
