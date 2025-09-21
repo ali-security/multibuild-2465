@@ -92,11 +92,20 @@ setup_centos() {
 setup_alamalinux() {
     # needed to run once on machine; in Dockerfile should be handled by it (must run as non-root user, but as sudoer)
     echo "performing machine setup, for distro: alamalinux version: $distro_version"
+    # Remove old cached keys
+    rpm -e gpg-pubkey-$(rpm -qa gpg-pubkey* | cut -d- -f3)
+
+    # Import the AlmaLinux 8 key explicitly
+    rpm --import https://repo.almalinux.org/almalinux/RPM-GPG-KEY-AlmaLinux-8
+
+    # Clean yum cache
+    yum clean all
+    yum makecache
     echo "finished alamalinux setup"
 }
 
 # alpine setup
-setup_alamalinux() {
+setup_alpine() {
     # needed to run once on machine; in Dockerfile should be handled by it (must run as non-root user, but as sudoer)
     echo "performing machine setup, for distro: alpine version: $distro_version"
     echo "finished alpine setup"
