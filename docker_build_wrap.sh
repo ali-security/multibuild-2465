@@ -7,8 +7,6 @@
 #   UNICODE_WIDTH  (can be empty)
 #   BUILD_DEPENDS  (may be used by config.sh, can be empty)
 set -e
-cd $MULTIBUILD_DIR
-./build.bash --setup
 
 cd /io
 
@@ -23,6 +21,8 @@ ENV_VARS_PATH=${ENV_VARS_PATH:-env_vars.sh}
 
 # Always pull in common and library builder utils
 MULTIBUILD_DIR=$(dirname "${BASH_SOURCE[0]}")
+$MULTIBUILD_DIR/build.bash --setup
+
 # These routines also source common_utils.sh
 source $MULTIBUILD_DIR/manylinux_utils.sh
 if [ -r "$ENV_VARS_PATH" ]; then source "$ENV_VARS_PATH"; fi
