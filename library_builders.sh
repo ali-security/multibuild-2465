@@ -252,6 +252,7 @@ function build_giflib {
     local name=giflib
     local version=$GIFLIB_VERSION
     local url=https://downloads.sourceforge.net/project/giflib
+    
     if [ $(lex_ver $GIFLIB_VERSION) -lt $(lex_ver 5.1.5) ]; then
         build_simple $name $version $url
     else
@@ -287,9 +288,29 @@ function build_libwebp {
     build_libpng
     build_tiff
     build_giflib
-    build_simple libwebp $LIBWEBP_VERSION \
-        https://storage.googleapis.com/downloads.webmproject.org/releases/webp tar.gz \
-        --enable-libwebpmux --enable-libwebpdemux
+    # build_simple libwebp $LIBWEBP_VERSION \
+    #     https://storage.googleapis.com/downloads.webmproject.org/releases/webp tar.gz \
+    #     --enable-libwebpmux --enable-libwebpdemux
+    # copy build_simple logic to implement patch before building it
+    local name=libwebp
+    local version=$LIBWEBP_VERSION
+    local url=https://storage.googleapis.com/downloads.webmproject.org/releases/webp
+    local ext=tar.gz
+    local configure_args="--enable-libwebpmux --enable-libwebpdemux"
+    if [ -e "${name}-stamp" ]; then
+        return
+    fi
+    local name_version="${name}-${version}"
+    local archive=${name_version}.${ext}
+    fetch_unpack $url/$archive
+    cd $name_version && echo "applying libwebp patches"
+    patch -p1 < $MULTIBUILD_DIR/libweb-CVE-2023-4863.patch
+    cat src/utils/huffman_utils.c | grep "e need at least 'total_size' but if that value is small, it is bett" # part of the patch, make sure exists
+    if [[ $? != 0 ]]; then
+        echo "failed applying patch" && exit 1
+    fi
+    ./configure --prefix=$BUILD_PREFIX $configure_args && make -j4 && make install && cd ..
+    touch "${name}-stamp"
 }
 
 function build_freetype {
